@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en"><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Digital Product Initiatives — Interactive Project Tracker</title>
@@ -177,6 +178,12 @@
   .doc-add-row input{flex:1;padding:6px 9px;border:1px solid var(--border);border-radius:6px;font-size:12.5px;}
   .doc-add-row button{padding:6px 12px;font-size:12px;border-radius:6px;border:1px solid var(--navy);
     background:#fff;color:var(--navy);cursor:pointer;font-weight:600;white-space:nowrap;}
+
+  .type-chip{display:inline-flex;align-items:center;gap:7px;background:#EEF1F6;border:1px solid var(--border);
+    border-radius:16px;padding:5px 10px 5px 12px;font-size:12.5px;font-weight:600;color:var(--text);}
+  .type-chip .type-remove{cursor:pointer;color:var(--red);font-weight:700;font-size:13px;line-height:1;}
+  .type-chip .type-remove:hover{opacity:0.7;}
+  .type-chip .type-count{color:var(--muted);font-weight:500;font-size:11px;}
   .doc-help{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
   .doc-help code{background:#F0F2F5;padding:1px 5px;border-radius:4px;}
 
@@ -191,7 +198,7 @@
     border:1px solid var(--border);border-radius:12px;padding:3px 10px;white-space:nowrap;}
 </style>
 </head>
-<body class="">
+<body>
 
 <header>
   <h1>Digital Product Initiatives — Interactive Project Tracker</h1>
@@ -200,7 +207,7 @@
 
 <div class="toolbar">
   <input type="text" id="searchBox" placeholder="Search project, description, comments, owner...">
-  <select id="trackerFilter"><option value="">All Trackers</option><option value="Digital Projects">Digital Projects</option></select>
+  <select id="trackerFilter"><option value="">All Trackers</option></select>
   <select id="statusFilter">
     <option value="">All Statuses</option>
     <option value="agreement">Agreement Phase</option>
@@ -215,109 +222,26 @@
   <button class="secondary" id="exportBtn">Export CSV</button>
   <button class="secondary" id="exportExcelBtn" title="Downloads an Excel file with the same status/type colors shown on screen">Export Colored Excel</button>
   <button class="secondary" id="publishBtn" title="Downloads a new index.html with all current edits/additions/documents baked in — re-upload it to GitHub to make changes visible to everyone">Publish Updated Site</button>
-  <button class="secondary unlocked" id="unlockBtn" title="Unlock editing on this device">🔓 Editing Enabled (Click to Lock)</button>
+  <button class="secondary" id="unlockBtn" title="Unlock editing on this device">&#128274; Unlock Editing</button>
 </div>
 
-<div class="stats" id="statsBar">
-    <div class="stat-card"><div class="num">46</div><div class="lbl">Total Initiatives</div></div>
-    <div class="stat-card agreement"><div class="num">10</div><div class="lbl">Agreement Phase</div></div>
-    <div class="stat-card brd"><div class="num">18</div><div class="lbl">BRD Stage</div></div>
-    <div class="stat-card dev"><div class="num">5</div><div class="lbl">Development Phase</div></div>
-    <div class="stat-card uat"><div class="num">4</div><div class="lbl">UAT In Progress</div></div>
-    <div class="stat-card live"><div class="num">9</div><div class="lbl">Live</div></div>
-  </div>
+<div class="stats" id="statsBar"></div>
 
 <div class="dash-row">
   <div class="dash-section" id="dashSection">
     <div class="dash-header" id="dashHeader">
-      <span class="chevron">▼</span>
+      <span class="chevron">&#9660;</span>
       <span class="title">Owner Workload Dashboard</span>
     </div>
-    <div class="dash-body" id="dashBody">
-    <div class="dash-legend">
-      <span><span class="sw" style="background:var(--slate)"></span>Agreement Phase</span><span><span class="sw" style="background:var(--amber)"></span>BRD Stage</span><span><span class="sw" style="background:var(--blue)"></span>Development Phase</span><span><span class="sw" style="background:var(--purple)"></span>UAT In Progress</span><span><span class="sw" style="background:var(--green)"></span>Live</span>
-    </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Kumail">Kumail</div>
-        <div class="owner-bar"><div class="seg" style="width:54.73684210526316px;background:var(--slate)" title="Agreement Phase: 4"></div><div class="seg" style="width:68.42105263157895px;background:var(--amber)" title="BRD Stage: 5"></div><div class="seg" style="width:27.36842105263158px;background:var(--blue)" title="Development Phase: 2"></div><div class="seg" style="width:109.47368421052632px;background:var(--green)" title="Live: 8"></div></div>
-        <div class="owner-total">19</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Ismail">Ismail</div>
-        <div class="owner-bar"><div class="seg" style="width:27.36842105263158px;background:var(--slate)" title="Agreement Phase: 2"></div><div class="seg" style="width:95.78947368421052px;background:var(--amber)" title="BRD Stage: 7"></div><div class="seg" style="width:41.05263157894736px;background:var(--blue)" title="Development Phase: 3"></div><div class="seg" style="width:27.36842105263158px;background:var(--purple)" title="UAT In Progress: 2"></div></div>
-        <div class="owner-total">14</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Usama">Usama</div>
-        <div class="owner-bar"><div class="seg" style="width:54.73684210526316px;background:var(--slate)" title="Agreement Phase: 4"></div><div class="seg" style="width:82.10526315789473px;background:var(--amber)" title="BRD Stage: 6"></div><div class="seg" style="width:27.36842105263158px;background:var(--purple)" title="UAT In Progress: 2"></div><div class="seg" style="width:13.68421052631579px;background:var(--green)" title="Live: 1"></div></div>
-        <div class="owner-total">13</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Danyal">Danyal</div>
-        <div class="owner-bar"><div class="seg" style="width:13.68421052631579px;background:var(--slate)" title="Agreement Phase: 1"></div><div class="seg" style="width:68.42105263157895px;background:var(--amber)" title="BRD Stage: 5"></div><div class="seg" style="width:27.36842105263158px;background:var(--blue)" title="Development Phase: 2"></div><div class="seg" style="width:54.73684210526316px;background:var(--green)" title="Live: 4"></div></div>
-        <div class="owner-total">12</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Hamza">Hamza</div>
-        <div class="owner-bar"><div class="seg" style="width:13.68421052631579px;background:var(--slate)" title="Agreement Phase: 1"></div><div class="seg" style="width:13.68421052631579px;background:var(--amber)" title="BRD Stage: 1"></div><div class="seg" style="width:13.68421052631579px;background:var(--purple)" title="UAT In Progress: 1"></div><div class="seg" style="width:13.68421052631579px;background:var(--green)" title="Live: 1"></div></div>
-        <div class="owner-total">4</div>
-      </div></div>
+    <div class="dash-body" id="dashBody"></div>
   </div>
 
   <div class="dash-section" id="typeDashSection">
     <div class="dash-header" id="typeDashHeader">
-      <span class="chevron">▼</span>
+      <span class="chevron">&#9660;</span>
       <span class="title">Project Type by Stage</span>
     </div>
-    <div class="dash-body" id="typeDashBody">
-    <div class="dash-legend">
-      <span><span class="sw" style="background:var(--slate)"></span>Agreement Phase</span><span><span class="sw" style="background:var(--amber)"></span>BRD Stage</span><span><span class="sw" style="background:var(--blue)"></span>Development Phase</span><span><span class="sw" style="background:var(--purple)"></span>UAT In Progress</span><span><span class="sw" style="background:var(--green)"></span>Live</span>
-    </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Lending">Lending</div>
-        <div class="owner-bar"><div class="seg" style="width:57.77777777777777px;background:var(--slate)" title="Agreement Phase: 4"></div><div class="seg" style="width:57.77777777777777px;background:var(--amber)" title="BRD Stage: 4"></div><div class="seg" style="width:28.888888888888886px;background:var(--blue)" title="Development Phase: 2"></div><div class="seg" style="width:115.55555555555554px;background:var(--green)" title="Live: 8"></div></div>
-        <div class="owner-total">18</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Other">Other</div>
-        <div class="owner-bar"><div class="seg" style="width:101.11111111111111px;background:var(--amber)" title="BRD Stage: 7"></div><div class="seg" style="width:14.444444444444443px;background:var(--blue)" title="Development Phase: 1"></div><div class="seg" style="width:14.444444444444443px;background:var(--purple)" title="UAT In Progress: 1"></div></div>
-        <div class="owner-total">9</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Bill Payments">Bill Payments</div>
-        <div class="owner-bar"><div class="seg" style="width:14.444444444444443px;background:var(--slate)" title="Agreement Phase: 1"></div><div class="seg" style="width:57.77777777777777px;background:var(--amber)" title="BRD Stage: 4"></div></div>
-        <div class="owner-total">5</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Integration">Integration</div>
-        <div class="owner-bar"><div class="seg" style="width:28.888888888888886px;background:var(--slate)" title="Agreement Phase: 2"></div><div class="seg" style="width:14.444444444444443px;background:var(--purple)" title="UAT In Progress: 1"></div><div class="seg" style="width:14.444444444444443px;background:var(--green)" title="Live: 1"></div></div>
-        <div class="owner-total">4</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Mini App">Mini App</div>
-        <div class="owner-bar"><div class="seg" style="width:28.888888888888886px;background:var(--slate)" title="Agreement Phase: 2"></div><div class="seg" style="width:14.444444444444443px;background:var(--amber)" title="BRD Stage: 1"></div></div>
-        <div class="owner-total">3</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Card Related Project">Card Related Project</div>
-        <div class="owner-bar"><div class="seg" style="width:14.444444444444443px;background:var(--slate)" title="Agreement Phase: 1"></div><div class="seg" style="width:14.444444444444443px;background:var(--purple)" title="UAT In Progress: 1"></div></div>
-        <div class="owner-total">2</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Journey Upgrade">Journey Upgrade</div>
-        <div class="owner-bar"><div class="seg" style="width:14.444444444444443px;background:var(--amber)" title="BRD Stage: 1"></div><div class="seg" style="width:14.444444444444443px;background:var(--blue)" title="Development Phase: 1"></div></div>
-        <div class="owner-total">2</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Mobile Load/Bundles">Mobile Load/Bundles</div>
-        <div class="owner-bar"><div class="seg" style="width:14.444444444444443px;background:var(--amber)" title="BRD Stage: 1"></div><div class="seg" style="width:14.444444444444443px;background:var(--purple)" title="UAT In Progress: 1"></div></div>
-        <div class="owner-total">2</div>
-      </div>
-      <div class="owner-row">
-        <div class="owner-name" title="Remittance">Remittance</div>
-        <div class="owner-bar"><div class="seg" style="width:14.444444444444443px;background:var(--blue)" title="Development Phase: 1"></div></div>
-        <div class="owner-total">1</div>
-      </div></div>
+    <div class="dash-body" id="typeDashBody"></div>
   </div>
 </div>
 
@@ -325,14 +249,14 @@
   <div class="modal-panel">
     <div class="modal-header">
       <span>Add New Project / Initiative</span>
-      <span class="modal-close" id="modalCloseBtn">×</span>
+      <span class="modal-close" id="modalCloseBtn">&times;</span>
     </div>
     <div class="modal-body">
       <div class="detail-grid">
         <div class="detail-field">
           <label>Tracker Section *</label>
           <input list="trackerOptions" id="addTracker" placeholder="e.g. Digital Projects">
-          <datalist id="trackerOptions"><option value="Digital Projects"></option></datalist>
+          <datalist id="trackerOptions"></datalist>
         </div>
         <div class="detail-field">
           <label>Project / Initiative *</label>
@@ -340,17 +264,8 @@
         </div>
         <div class="detail-field">
           <label>Type</label>
-          <select id="addType">
-            <option value="Card Related Project">Card Related Project</option>
-            <option value="Lending">Lending</option>
-            <option value="Mini App">Mini App</option>
-            <option value="Bill Payments">Bill Payments</option>
-            <option value="Mobile Load/Bundles">Mobile Load/Bundles</option>
-            <option value="Integration">Integration</option>
-            <option value="Remittance">Remittance</option>
-            <option value="Journey Upgrade">Journey Upgrade</option>
-            <option value="Other" selected="">Other</option>
-          </select>
+          <select id="addType"></select>
+          <span id="manageTypesLink" style="font-size:11px;color:var(--navy);cursor:pointer;text-decoration:underline;display:inline-block;margin-top:5px;">+ Add / Remove Types</span>
         </div>
         <div class="detail-field">
           <label>Current Status / Stage</label>
@@ -396,1209 +311,35 @@
   </div>
 </div>
 
-<main id="main"><div class="section">
-      <div class="section-header" onclick="toggleSection('Digital Projects')">
-        <span class="chevron">▼</span>
-        <span class="title">Digital Projects</span>
-        <span class="count">46 of 46</span>
+<div class="modal-overlay" id="typesModalOverlay">
+  <div class="modal-panel">
+    <div class="modal-header">
+      <span>Manage Project Types</span>
+      <span class="modal-close" id="typesModalCloseBtn">&times;</span>
+    </div>
+    <div class="modal-body">
+      <div id="typesList" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;"></div>
+      <div class="detail-field">
+        <label>Add New Type</label>
+        <div style="display:flex;gap:8px;">
+          <input type="text" id="newTypeInput" placeholder="e.g. Card Related Project" style="flex:1;">
+          <button class="primary" id="addTypeBtn" style="white-space:nowrap;padding:0 16px;">Add</button>
+        </div>
       </div>
-      <div class="section-body">
-        <table>
-          <thead>
-          <tr>
-            <th class="" onclick="event.stopPropagation(); sortBy('Digital Projects','sn')">#</th><th class="" onclick="event.stopPropagation(); sortBy('Digital Projects','project')">Project / Initiative</th><th class="" onclick="event.stopPropagation(); sortBy('Digital Projects','type')">Type</th><th class="" onclick="event.stopPropagation(); sortBy('Digital Projects','status')">Status</th><th class="" onclick="event.stopPropagation(); sortBy('Digital Projects','target')">Timeline</th><th class="" onclick="event.stopPropagation(); sortBy('Digital Projects','parked')">Owner</th><th>Link</th>
-          </tr>
-          <tr class="filter-row" onclick="event.stopPropagation();">
-            <th class="filter-cell"><select data-filter-key="Digital Projects::sn" onchange="updateColumnFilter('Digital Projects','sn', this.value)">
-                <option value="">All</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option><option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option><option value="37">37</option><option value="38">38</option><option value="39">39</option><option value="40">40</option><option value="41">41</option><option value="42">42</option><option value="43">43</option><option value="44">44</option><option value="45">45</option><option value="46">46</option>
-              </select></th><th class="filter-cell"><select data-filter-key="Digital Projects::project" onchange="updateColumnFilter('Digital Projects','project', this.value)">
-                <option value="">All</option>
-                <option value="1-Link Biller Addition">1-Link Biller Addition</option><option value="4Sight">4Sight</option><option value="Agent Interoperability">Agent Interoperability</option><option value="Air Link Integration (BNPL PWA) ">Air Link Integration (BNPL PWA) </option><option value="Aitemad">Aitemad</option><option value="App Revamp (UI/UX &amp; Functionality)">App Revamp (UI/UX &amp; Functionality)</option><option value="ASAAN Digital Account – Website">ASAAN Digital Account – Website</option><option value="Automatic Vendor Repayment Mechanism">Automatic Vendor Repayment Mechanism</option><option value="Bill Payment Revamp">Bill Payment Revamp</option><option value="Buy Now Pay Later">Buy Now Pay Later</option><option value="CBA">CBA</option><option value="Conversion of LMS (EWA / Advance Salary / Merchant Financing) into Banking Core">Conversion of LMS (EWA / Advance Salary / Merchant Financing) into Banking Core</option><option value="Corporate Portal &amp; Home Remittance">Corporate Portal &amp; Home Remittance</option><option value="Customer Complaints Framework (CRM Ticket Routing)">Customer Complaints Framework (CRM Ticket Routing)</option><option value="Dastak">Dastak</option><option value="Education Loan">Education Loan</option><option value="Family Saving Account">Family Saving Account</option><option value="Finleap Daira">Finleap Daira</option><option value="Firebase Database Events &amp; Triggers Setup">Firebase Database Events &amp; Triggers Setup</option><option value="Gold Loan at Customer Doorstep">Gold Loan at Customer Doorstep</option><option value="In-App Gamification/App Loading Game if App lags">In-App Gamification/App Loading Game if App lags</option><option value="Instant Card Issuance">Instant Card Issuance</option><option value="Insurance Marketplace Integration (Adamjee, EFU, Webdoc)">Insurance Marketplace Integration (Adamjee, EFU, Webdoc)</option><option value="Intersave">Intersave</option><option value="IPG and Soft POS">IPG and Soft POS</option><option value="Islamic Banking App Designs">Islamic Banking App Designs</option><option value="Jazz Loan API Integration">Jazz Loan API Integration</option><option value="Kuickpay Biller Addition">Kuickpay Biller Addition</option><option value="Link Revenue Streams to Firebase">Link Revenue Streams to Firebase</option><option value="M-Tag Integration">M-Tag Integration</option><option value="NADRA Facial">NADRA Facial</option><option value="Nano Loan – FinLeap">Nano Loan – FinLeap</option><option value="Nano Loan – Zenda">Nano Loan – Zenda</option><option value="New Onboarding Journey (Islamic Banking)">New Onboarding Journey (Islamic Banking)</option><option value="NTL - Billing">NTL - Billing</option><option value="NTL - Biometric Enablement at e-Sahulat Centers/Agents">NTL - Biometric Enablement at e-Sahulat Centers/Agents</option><option value="Optimize Notifications">Optimize Notifications</option><option value="Orio Tech">Orio Tech</option><option value="RAAST P2P">RAAST P2P</option><option value="Salary Backed Lending (Provident Fund, Gratuity &amp; VPS)">Salary Backed Lending (Provident Fund, Gratuity &amp; VPS)</option><option value="Study Support Finance">Study Support Finance</option><option value="TechWisely (Planckly) Marketplace Integration">TechWisely (Planckly) Marketplace Integration</option><option value="TPLI/Cashy Protect Mini App">TPLI/Cashy Protect Mini App</option><option value="Ufone Integration">Ufone Integration</option><option value="VRG">VRG</option><option value="Zarai Baramdat">Zarai Baramdat</option>
-              </select></th><th class="filter-cell"><select data-filter-key="Digital Projects::type" onchange="updateColumnFilter('Digital Projects','type', this.value)">
-                <option value="">All</option>
-                <option value="Bill Payments">Bill Payments</option><option value="Card Related Project">Card Related Project</option><option value="Integration">Integration</option><option value="Journey Upgrade">Journey Upgrade</option><option value="Lending">Lending</option><option value="Mini App">Mini App</option><option value="Mobile Load/Bundles">Mobile Load/Bundles</option><option value="Other">Other</option><option value="Remittance">Remittance</option>
-              </select></th><th class="filter-cell"><select data-filter-key="Digital Projects::status" onchange="updateColumnFilter('Digital Projects','status', this.value)">
-                <option value="">All</option>
-                <option value="Agreement Phase">Agreement Phase</option><option value="BRD Stage">BRD Stage</option><option value="Development Phase">Development Phase</option><option value="Live">Live</option><option value="UAT In Progress">UAT In Progress</option>
-              </select></th><th class="filter-cell"><select data-filter-key="Digital Projects::target" onchange="updateColumnFilter('Digital Projects','target', this.value)">
-                <option value="">All</option>
-                <option value="02 Jul 2026">02 Jul 2026</option><option value="7th July, 2026">7th July, 2026</option><option value="15th July 2026">15th July 2026</option><option value="22 Jun 2026">22 Jun 2026</option><option value="23 Jun 2026">23 Jun 2026</option><option value="30 Jun 2026">30 Jun 2026</option><option value="30th July, 2026">30th July, 2026</option><option value="N/A">N/A</option><option value="September">September</option><option value="TBD">TBD</option>
-              </select></th><th class="filter-cell"><select data-filter-key="Digital Projects::parked" onchange="updateColumnFilter('Digital Projects','parked', this.value)">
-                <option value="">All</option>
-                <option value="Danyal">Danyal</option><option value="Hamza">Hamza</option><option value="Ismail">Ismail</option><option value="Kumail">Kumail</option><option value="Usama">Usama</option>
-              </select></th><th class="filter-cell"></th>
-          </tr>
-          </thead>
-          <tbody>
-            
-    <tr class="row-main" onclick="toggleRow('Digital Projects::1')">
-      <td class="sn">1</td>
-      <td class="project">Gold Loan at Customer Doorstep</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::1')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::1" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">UAT completed; currently live with GoldFin.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::1')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::2')">
-      <td class="sn">2</td>
-      <td class="project">ASAAN Digital Account – Website</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 30th July, 2026</td>
-      <td class="owner">Hamza, Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::2')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::2" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Innovation team to align requirements with IT &amp; Ops; full flow to be implemented in the Mobile App. Delayed due to website revamping.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::2')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::3')">
-      <td class="sn">3</td>
-      <td class="project">Instant Card Issuance</td>
-      <td><span class="type-tag">Card Related Project</span></td>
-      <td>
-        <span class="badge uat"><span class="dot"></span>UAT In Progress</span>
-        <div class="progress-wrap"><div class="progress-bar uat" style="width:80%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 30th July, 2026</td>
-      <td class="owner">Hamza, Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::3')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::3" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Waiting for UAT sign-off from Ops.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::3')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::4')">
-      <td class="sn">4</td>
-      <td class="project">RAAST P2P</td>
-      <td><span class="type-tag">Integration</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 30th July, 2026</td>
-      <td class="owner">Hamza, Usama
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::4')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::4" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Shifting to RAAST staging; waiting on State Bank for MR testing. Optional cases (per State Bank team) are in development.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::4')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::5')">
-      <td class="sn">5</td>
-      <td class="project">Corporate Portal &amp; Home Remittance</td>
-      <td><span class="type-tag">Remittance</span></td>
-      <td>
-        <span class="badge dev"><span class="dot"></span>Development Phase</span>
-        <div class="progress-wrap"><div class="progress-bar dev" style="width:60%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::5')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::5" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">UAT to be offered this month; moving to QA and InfoSec for testing.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::5')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::6')">
-      <td class="sn">6</td>
-      <td class="project">Agent Interoperability</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge uat"><span class="dot"></span>UAT In Progress</span>
-        <div class="progress-wrap"><div class="progress-bar uat" style="width:80%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::6')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::6" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">EasyPaisa and VRG UAT in process.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::6')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::7')">
-      <td class="sn">7</td>
-      <td class="project">NADRA Facial</td>
-      <td><span class="type-tag">Integration</span></td>
-      <td>
-        <span class="badge uat"><span class="dot"></span>UAT In Progress</span>
-        <div class="progress-wrap"><div class="progress-bar uat" style="width:80%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Usama
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::7')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::7" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">VAPT report expected from InfoSec next week; IT to upload required documentation to the NADRA portal for go-live approval. APIs received, pending configuration; connectivity with NADRA required.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">Follow up with NADRA</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::7')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::8')">
-      <td class="sn">8</td>
-      <td class="project">Nano Loan – Zenda</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 22 Jun 2026</td>
-      <td class="owner">Kumail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::8')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::8" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::8')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::9')">
-      <td class="sn">9</td>
-      <td class="project">Nano Loan – FinLeap</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge dev"><span class="dot"></span>Development Phase</span>
-        <div class="progress-wrap"><div class="progress-bar dev" style="width:60%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::9')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::9" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">IBFT API shared to enable IBFT transfers; core functionality enabled for IBFT loan recording in CBS.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">Follow up with FinLeap on the integration front</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::9')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::10')">
-      <td class="sn">10</td>
-      <td class="project">Conversion of LMS (EWA / Advance Salary / Merchant Financing) into Banking Core</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 23 Jun 2026</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::10')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::10" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Repayment flow under development; expected completion by mid next week.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">Repayment flow development</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::10')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::11')">
-      <td class="sn">11</td>
-      <td class="project">Family Saving Account</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::11')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::11" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Process flow shared with all stakeholders; BRD + UI/UX designs required.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">BRD and UI/UX designs to be provided</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::11')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::12')">
-      <td class="sn">12</td>
-      <td class="project">Salary Backed Lending (Provident Fund, Gratuity &amp; VPS)</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::12')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::12" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::12')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::13')">
-      <td class="sn">13</td>
-      <td class="project">Study Support Finance</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::13')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::13" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Process flow shared with all stakeholders; BRD + UI/UX designs required.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">BRD and UI/UX designs to be provided</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::13')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::14')">
-      <td class="sn">14</td>
-      <td class="project">Buy Now Pay Later</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::14')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::14" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Technical discussion held with AirLink's IT team; complete flow discussed.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">BRD and UI/UX designs to be provided</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::14')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::15')">
-      <td class="sn">15</td>
-      <td class="project">App Revamp (UI/UX &amp; Functionality)</td>
-      <td><span class="type-tag">Journey Upgrade</span></td>
-      <td>
-        <span class="badge dev"><span class="dot"></span>Development Phase</span>
-        <div class="progress-wrap"><div class="progress-bar dev" style="width:60%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 15th July 2026</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::15')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::15" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Overall app redesign covering user experience, interface, and functionality improvements</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Designs shared with IT; implementation in process, minor tweaks still pending.
-Impact: Directly reshapes navigation and interaction; improves usability and reduces friction; sets the tone for future digital features.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::15')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::16')">
-      <td class="sn">16</td>
-      <td class="project">Islamic Banking App Designs</td>
-      <td><span class="type-tag">Journey Upgrade</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::16')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::16" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::16')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::17')">
-      <td class="sn">17</td>
-      <td class="project">CBA</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge dev"><span class="dot"></span>Development Phase</span>
-        <div class="progress-wrap"><div class="progress-bar dev" style="width:60%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::17')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::17" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">CBA is integrating our APIs.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::17')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::18')">
-      <td class="sn">18</td>
-      <td class="project">Aitemad</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ N/A</td>
-      <td class="owner">Kumail, Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::18')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::18" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::18')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::19')">
-      <td class="sn">19</td>
-      <td class="project">Orio Tech</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 30 Jun 2026</td>
-      <td class="owner">Kumail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::19')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::19" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::19')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::20')">
-      <td class="sn">20</td>
-      <td class="project">Zarai Baramdat</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 02 Jul 2026</td>
-      <td class="owner">Kumail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::20')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::20" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::20')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::21')">
-      <td class="sn">21</td>
-      <td class="project">TPLI/Cashy Protect Mini App</td>
-      <td><span class="type-tag">Mini App</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">7th July, 2026<br>→ TBD</td>
-      <td class="owner">Kumail/Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::21')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::21" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::21')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::22')">
-      <td class="sn">22</td>
-      <td class="project">Automatic Vendor Repayment Mechanism</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ 7th July, 2026</td>
-      <td class="owner">Kumail/Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::22')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::22" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">Currently implemented with Digikhata. Will be implementing with our partners after successful run. </div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::22')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::23')">
-      <td class="sn">23</td>
-      <td class="project">Dastak</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge live"><span class="dot"></span>Live</span>
-        <div class="progress-wrap"><div class="progress-bar live" style="width:100%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Kumail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::23')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::23" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::23')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::24')">
-      <td class="sn">24</td>
-      <td class="project">Ufone Integration</td>
-      <td><span class="type-tag">Mobile Load/Bundles</span></td>
-      <td>
-        <span class="badge uat"><span class="dot"></span>UAT In Progress</span>
-        <div class="progress-wrap"><div class="progress-bar uat" style="width:80%"></div></div>
-      </td>
-      <td class="dates">27th April, 2026<br>→ TBD</td>
-      <td class="owner">Usama  
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::24')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::24" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Ufone POC aligned; QA will test on their end. Once tested, we will perform UAT and share feedback.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::24')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::25')">
-      <td class="sn">25</td>
-      <td class="project">1-Link Biller Addition</td>
-      <td><span class="type-tag">Bill Payments</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Usama  
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::25')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::25" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Finalizing the billers to be added; once finalized, email to be sent to Imran for biller addition.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::25')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::26')">
-      <td class="sn">26</td>
-      <td class="project">Kuickpay Biller Addition</td>
-      <td><span class="type-tag">Bill Payments</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Usama  
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::26')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::26" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Finalizing the billers to be added; once finalized, email to be sent to Imran for biller addition.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::26')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::27')">
-      <td class="sn">27</td>
-      <td class="project">New Onboarding Journey (Islamic Banking)</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Usama  
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::27')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::27" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">BRD shared with Khurram for approval.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::27')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::28')">
-      <td class="sn">28</td>
-      <td class="project">Bill Payment Revamp</td>
-      <td><span class="type-tag">Bill Payments</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Usama  
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::28')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::28" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val"> BRD floated today.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::28')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::29')">
-      <td class="sn">29</td>
-      <td class="project">M-Tag Integration</td>
-      <td><span class="type-tag">Bill Payments</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Usama  
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::29')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::29" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val"> BRD floated today.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::29')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::30')">
-      <td class="sn">30</td>
-      <td class="project">Jazz Loan API Integration<span class="edited-flag">EDITED</span></td>
-      <td><span class="type-tag">Mobile Load/Bundles</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Usama  
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::30')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::30" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val"> BRD floated today.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::30')">Edit</button>
-        <button class="danger" onclick="event.stopPropagation(); revertRow('Digital Projects::30')">Revert to Original</button>
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::31')">
-      <td class="sn">31</td>
-      <td class="project">Air Link Integration (BNPL PWA) </td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">05 Jul 2026<br>→ TBD</td>
-      <td class="owner">Kumail/Danyal
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::31')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::31" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Interface integration for Air Link's Buy Now Pay Later PWA within the app</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Kickoff stage; scope being finalized with Air Link.
-Impact: Introduces a new in-app checkout financing journey; smooth integration is critical to avoid disrupting the existing purchase flow.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::31')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::32')">
-      <td class="sn">32</td>
-      <td class="project">TechWisely (Planckly) Marketplace Integration</td>
-      <td><span class="type-tag">Mini App</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">07 Jul 2026<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::32')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::32" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Embedding the Planckly marketplace mini-app within the ABHI app; commission-based partnership</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Draft agreement received. Tech session to be held next week for integration</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::32')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::33')">
-      <td class="sn">33</td>
-      <td class="project">Insurance Marketplace Integration (Adamjee, EFU, Webdoc)</td>
-      <td><span class="type-tag">Mini App</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">TBD<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::33')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::33" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Integrating insurance providers into the app for in-app policy purchase/access</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Initial discussion done on PWA integration; agreement in process.
-Impact: Adds a self-service journey; lower expected usage frequency limits day-to-day UX impact.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::33')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::34')">
-      <td class="sn">34</td>
-      <td class="project">Customer Complaints Framework (CRM Ticket Routing)</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">TBD<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::34')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::34" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Building a structured complaint intake and CRM-based ticket routing flow</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Meeting with CX Head &amp; Call Center Head scheduled to proceed with implementation.
-Impact: Affects user trust and satisfaction; faster, clearer resolution improves perceived reliability.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::34')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::35')">
-      <td class="sn">35</td>
-      <td class="project">Firebase Database Events &amp; Triggers Setup</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">August<br>→ September</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::35')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::35" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Setting up Firebase database and creating tracking events from scratch</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Planning stage; mapping document in progress.
-Impact: Invisible to users directly, but enables future personalization and UX improvements via behavior tracking.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::35')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::36')">
-      <td class="sn">36</td>
-      <td class="project">Link Revenue Streams to Firebase</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">August<br>→ September</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::36')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::36" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Connecting revenue data sources into Firebase for digital revenue tracking</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Dependent on Firebase setup being completed first.
-Impact: Backend/analytics only; helps identify UX drop-off points tied to revenue.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::36')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::37')">
-      <td class="sn">37</td>
-      <td class="project">Optimize Notifications</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge dev"><span class="dot"></span>Development Phase</span>
-        <div class="progress-wrap"><div class="progress-bar dev" style="width:60%"></div></div>
-      </td>
-      <td class="dates">05 Jul 2026<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::37')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::37" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Improve in-app/push notifications and performance</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Currently mapping notification triggers journey; to be scoped once Firebase events are live.
-Impact: Shapes user re-engagement and retention; poorly timed notifications hurt UX and drive uninstalls.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::37')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::38')">
-      <td class="sn">38</td>
-      <td class="project">In-App Gamification/App Loading Game if App lags</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">TBD<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::38')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::38" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        <div class="detail-field" style="grid-column:1/-1;"><label>Description</label><div class="val">Coin/incentive-based gamification engine</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">Planning stage.
-Impact: Incentivizes users to drive engagement and feature usage.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::38')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::39')">
-      <td class="sn">39</td>
-      <td class="project">4Sight</td>
-      <td><span class="type-tag">Other</span></td>
-      <td>
-        <span class="badge brd"><span class="dot"></span>BRD Stage</span>
-        <div class="progress-wrap"><div class="progress-bar brd" style="width:30%"></div></div>
-      </td>
-      <td class="dates">30th March 2026<br>→ TBD</td>
-      <td class="owner">Ismail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::39')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::39" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">WhatsApp group already exists with 4Sight.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::39')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::40')">
-      <td class="sn">40</td>
-      <td class="project">Finleap Daira</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">27th April 2026<br>→ TBD</td>
-      <td class="owner">Kumail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::40')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::40" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">WhatsApp group already exists with Finleap Daira.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::40')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::41')">
-      <td class="sn">41</td>
-      <td class="project">VRG</td>
-      <td><span class="type-tag">Integration</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">26th Feb 2026<br>→ TBD</td>
-      <td class="owner">Usama
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::41')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::41" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::41')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::42')">
-      <td class="sn">42</td>
-      <td class="project">NTL - Billing</td>
-      <td><span class="type-tag">Bill Payments</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">10th June 2026<br>→ TBD</td>
-      <td class="owner">Usama
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::42')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::42" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::42')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::43')">
-      <td class="sn">43</td>
-      <td class="project">NTL - Biometric Enablement at e-Sahulat Centers/Agents</td>
-      <td><span class="type-tag">Integration</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">10th June 2026<br>→ TBD</td>
-      <td class="owner">Usama
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::43')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::43" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">WhatsApp group already exists.</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::43')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::44')">
-      <td class="sn">44</td>
-      <td class="project">Education Loan</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Kumail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::44')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::44" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::44')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::45')">
-      <td class="sn">45</td>
-      <td class="project">Intersave</td>
-      <td><span class="type-tag">Lending</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">5th May 2026<br>→ TBD</td>
-      <td class="owner">Kumail
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::45')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::45" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::45')">Edit</button>
-        
-        
-      </div></td></tr>
-    <tr class="row-main" onclick="toggleRow('Digital Projects::46')">
-      <td class="sn">46</td>
-      <td class="project">IPG and Soft POS</td>
-      <td><span class="type-tag">Card Related Project</span></td>
-      <td>
-        <span class="badge agreement"><span class="dot"></span>Agreement Phase</span>
-        <div class="progress-wrap"><div class="progress-bar agreement" style="width:10%"></div></div>
-      </td>
-      <td class="dates">—<br>→ TBD</td>
-      <td class="owner">Usama, Hamza
-        <span class="edit-icon" title="Edit" onclick="event.stopPropagation(); startEdit('Digital Projects::46')">✎</span>
-      </td>
-      <td class="link-col"><span class="link-col-empty">—</span></td>
-    </tr><tr class="row-detail " data-key="Digital Projects::46" data-editing="false"><td colspan="7">
-      <div class="detail-grid">
-        
-        <div class="detail-field" style="grid-column:1/-1;"><label>Comments / IT Notes</label><div class="val">—</div></div>
-        <div class="detail-field" style="grid-column:1/-1;"><label>Action Required</label><div class="val">—</div></div>
-        
-      </div>
-      <div class="row-actions">
-        <button onclick="event.stopPropagation(); startEdit('Digital Projects::46')">Edit</button>
-        
-        
-      </div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div></main>
+      <div class="modal-error" id="typesError"></div>
+    </div>
+    <div class="modal-footer">
+      <button id="closeTypesBtn">Done</button>
+    </div>
+  </div>
+</div>
+
+<main id="main"></main>
 
 <footer>Interactive tracker · edits are saved locally in this browser · click a row to expand details or edit</footer>
 
 <script>
-const RAW_DATA = [{"sn":1,"tracker":"Digital Projects","project":"Gold Loan at Customer Doorstep","description":null,"status":"Live","start":null,"target":"TBD","comments":"UAT completed; currently live with GoldFin.","action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":2,"tracker":"Digital Projects","project":"ASAAN Digital Account – Website","description":null,"status":"BRD Stage","start":null,"target":"30th July, 2026","comments":"Innovation team to align requirements with IT & Ops; full flow to be implemented in the Mobile App. Delayed due to website revamping.","action":null,"parked":"Hamza, Ismail","type":"Other"},{"sn":3,"tracker":"Digital Projects","project":"Instant Card Issuance","description":null,"status":"UAT In Progress","start":null,"target":"30th July, 2026","comments":"Waiting for UAT sign-off from Ops.","action":null,"parked":"Hamza, Ismail","type":"Card Related Project"},{"sn":4,"tracker":"Digital Projects","project":"RAAST P2P","description":null,"status":"Live","start":null,"target":"30th July, 2026","comments":"Shifting to RAAST staging; waiting on State Bank for MR testing. Optional cases (per State Bank team) are in development.","action":null,"parked":"Hamza, Usama","type":"Integration"},{"sn":5,"tracker":"Digital Projects","project":"Corporate Portal & Home Remittance","description":null,"status":"Development Phase","start":null,"target":"TBD","comments":"UAT to be offered this month; moving to QA and InfoSec for testing.","action":null,"parked":"Ismail","type":"Remittance"},{"sn":6,"tracker":"Digital Projects","project":"Agent Interoperability","description":null,"status":"UAT In Progress","start":null,"target":"TBD","comments":"EasyPaisa and VRG UAT in process.","action":null,"parked":"Ismail","type":"Other"},{"sn":7,"tracker":"Digital Projects","project":"NADRA Facial","description":null,"status":"UAT In Progress","start":null,"target":"N/A","comments":"VAPT report expected from InfoSec next week; IT to upload required documentation to the NADRA portal for go-live approval. APIs received, pending configuration; connectivity with NADRA required.","action":"Follow up with NADRA","parked":"Usama","type":"Integration"},{"sn":8,"tracker":"Digital Projects","project":"Nano Loan – Zenda","description":null,"status":"Live","start":null,"target":"22 Jun 2026","comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":9,"tracker":"Digital Projects","project":"Nano Loan – FinLeap","description":null,"status":"Development Phase","start":null,"target":"TBD","comments":"IBFT API shared to enable IBFT transfers; core functionality enabled for IBFT loan recording in CBS.","action":"Follow up with FinLeap on the integration front","parked":"Kumail, Danyal","type":"Lending"},{"sn":10,"tracker":"Digital Projects","project":"Conversion of LMS (EWA / Advance Salary / Merchant Financing) into Banking Core","description":null,"status":"Live","start":null,"target":"23 Jun 2026","comments":"Repayment flow under development; expected completion by mid next week.","action":"Repayment flow development","parked":"Kumail, Danyal","type":"Lending"},{"sn":11,"tracker":"Digital Projects","project":"Family Saving Account","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":"Process flow shared with all stakeholders; BRD + UI/UX designs required.","action":"BRD and UI/UX designs to be provided","parked":"Kumail, Danyal","type":"Lending"},{"sn":12,"tracker":"Digital Projects","project":"Salary Backed Lending (Provident Fund, Gratuity & VPS)","description":null,"status":"Live","start":null,"target":"N/A","comments":null,"action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":13,"tracker":"Digital Projects","project":"Study Support Finance","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":"Process flow shared with all stakeholders; BRD + UI/UX designs required.","action":"BRD and UI/UX designs to be provided","parked":"Kumail, Danyal","type":"Lending"},{"sn":14,"tracker":"Digital Projects","project":"Buy Now Pay Later","description":null,"status":"Agreement Phase","start":null,"target":"N/A","comments":"Technical discussion held with AirLink's IT team; complete flow discussed.","action":"BRD and UI/UX designs to be provided","parked":"Kumail, Danyal","type":"Lending"},{"sn":15,"tracker":"Digital Projects","project":"App Revamp (UI/UX & Functionality)","description":"Overall app redesign covering user experience, interface, and functionality improvements","status":"Development Phase","start":null,"target":"15th July 2026","comments":"Designs shared with IT; implementation in process, minor tweaks still pending.\nImpact: Directly reshapes navigation and interaction; improves usability and reduces friction; sets the tone for future digital features.","action":null,"parked":"Ismail","type":"Journey Upgrade"},{"sn":16,"tracker":"Digital Projects","project":"Islamic Banking App Designs","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":null,"action":null,"parked":"Ismail","type":"Journey Upgrade"},{"sn":17,"tracker":"Digital Projects","project":"CBA","description":null,"status":"Development Phase","start":null,"target":"N/A","comments":"CBA is integrating our APIs.","action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":18,"tracker":"Digital Projects","project":"Aitemad","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":null,"action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":19,"tracker":"Digital Projects","project":"Orio Tech","description":null,"status":"Live","start":null,"target":"30 Jun 2026","comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":20,"tracker":"Digital Projects","project":"Zarai Baramdat","description":null,"status":"Live","start":null,"target":"02 Jul 2026","comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":21,"tracker":"Digital Projects","project":"TPLI/Cashy Protect Mini App","description":null,"status":"BRD Stage","start":"7th July, 2026","target":null,"comments":null,"action":null,"parked":"Kumail/Danyal","type":"Mini App"},{"sn":22,"tracker":"Digital Projects","project":"Automatic Vendor Repayment Mechanism","description":null,"status":"Live","start":null,"target":"7th July, 2026","comments":null,"action":"Currently implemented with Digikhata. Will be implementing with our partners after successful run. ","parked":"Kumail/Danyal","type":"Lending"},{"sn":23,"tracker":"Digital Projects","project":"Dastak","description":null,"status":"Live","start":null,"target":null,"comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":24,"tracker":"Digital Projects","project":"Ufone Integration","description":null,"status":"UAT In Progress","start":"27th April, 2026","target":null,"comments":"Ufone POC aligned; QA will test on their end. Once tested, we will perform UAT and share feedback.","action":null,"parked":"Usama  ","type":"Mobile Load/Bundles"},{"sn":25,"tracker":"Digital Projects","project":"1-Link Biller Addition","description":null,"status":"BRD Stage","start":null,"target":null,"comments":"Finalizing the billers to be added; once finalized, email to be sent to Imran for biller addition.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":26,"tracker":"Digital Projects","project":"Kuickpay Biller Addition","description":null,"status":"BRD Stage","start":null,"target":null,"comments":"Finalizing the billers to be added; once finalized, email to be sent to Imran for biller addition.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":27,"tracker":"Digital Projects","project":"New Onboarding Journey (Islamic Banking)","description":null,"status":"BRD Stage","start":null,"target":null,"comments":"BRD shared with Khurram for approval.","action":null,"parked":"Usama  ","type":"Other"},{"sn":28,"tracker":"Digital Projects","project":"Bill Payment Revamp","description":null,"status":"BRD Stage","start":null,"target":null,"comments":" BRD floated today.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":29,"tracker":"Digital Projects","project":"M-Tag Integration","description":null,"status":"BRD Stage","start":null,"target":null,"comments":" BRD floated today.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":30,"tracker":"Digital Projects","project":"Jazz Loan API Integration","description":"","status":"BRD Stage","start":"","target":"","comments":" BRD floated today.","action":"","parked":"Usama  ","type":"Mobile Load/Bundles","documents":[]},{"sn":31,"tracker":"Digital Projects","project":"Air Link Integration (BNPL PWA) ","description":"Interface integration for Air Link's Buy Now Pay Later PWA within the app","status":"BRD Stage","start":"05 Jul 2026","target":null,"comments":"Kickoff stage; scope being finalized with Air Link.\nImpact: Introduces a new in-app checkout financing journey; smooth integration is critical to avoid disrupting the existing purchase flow.","action":null,"parked":"Kumail/Danyal","type":"Lending"},{"sn":32,"tracker":"Digital Projects","project":"TechWisely (Planckly) Marketplace Integration","description":"Embedding the Planckly marketplace mini-app within the ABHI app; commission-based partnership","status":"Agreement Phase","start":"07 Jul 2026","target":null,"comments":"Draft agreement received. Tech session to be held next week for integration","action":null,"parked":"Ismail","type":"Mini App"},{"sn":33,"tracker":"Digital Projects","project":"Insurance Marketplace Integration (Adamjee, EFU, Webdoc)","description":"Integrating insurance providers into the app for in-app policy purchase/access","status":"Agreement Phase","start":"TBD","target":"TBD","comments":"Initial discussion done on PWA integration; agreement in process.\nImpact: Adds a self-service journey; lower expected usage frequency limits day-to-day UX impact.","action":null,"parked":"Ismail","type":"Mini App"},{"sn":34,"tracker":"Digital Projects","project":"Customer Complaints Framework (CRM Ticket Routing)","description":"Building a structured complaint intake and CRM-based ticket routing flow","status":"BRD Stage","start":"TBD","target":"TBD","comments":"Meeting with CX Head & Call Center Head scheduled to proceed with implementation.\nImpact: Affects user trust and satisfaction; faster, clearer resolution improves perceived reliability.","action":null,"parked":"Ismail","type":"Other"},{"sn":35,"tracker":"Digital Projects","project":"Firebase Database Events & Triggers Setup","description":"Setting up Firebase database and creating tracking events from scratch","status":"BRD Stage","start":"August","target":"September","comments":"Planning stage; mapping document in progress.\nImpact: Invisible to users directly, but enables future personalization and UX improvements via behavior tracking.","action":null,"parked":"Ismail","type":"Other"},{"sn":36,"tracker":"Digital Projects","project":"Link Revenue Streams to Firebase","description":"Connecting revenue data sources into Firebase for digital revenue tracking","status":"BRD Stage","start":"August","target":"September","comments":"Dependent on Firebase setup being completed first.\nImpact: Backend/analytics only; helps identify UX drop-off points tied to revenue.","action":null,"parked":"Ismail","type":"Other"},{"sn":37,"tracker":"Digital Projects","project":"Optimize Notifications","description":"Improve in-app/push notifications and performance","status":"Development Phase","start":"05 Jul 2026","target":"TBD","comments":"Currently mapping notification triggers journey; to be scoped once Firebase events are live.\nImpact: Shapes user re-engagement and retention; poorly timed notifications hurt UX and drive uninstalls.","action":null,"parked":"Ismail","type":"Other"},{"sn":38,"tracker":"Digital Projects","project":"In-App Gamification/App Loading Game if App lags","description":"Coin/incentive-based gamification engine","status":"BRD Stage","start":"TBD","target":"TBD","comments":"Planning stage.\nImpact: Incentivizes users to drive engagement and feature usage.","action":null,"parked":"Ismail","type":"Other"},{"sn":39,"tracker":"Digital Projects","project":"4Sight","description":null,"status":"BRD Stage","start":"30th March 2026","target":null,"comments":"WhatsApp group already exists with 4Sight.","action":null,"parked":"Ismail","type":"Other"},{"sn":40,"tracker":"Digital Projects","project":"Finleap Daira","description":null,"status":"Agreement Phase","start":"27th April 2026","target":null,"comments":"WhatsApp group already exists with Finleap Daira.","action":null,"parked":"Kumail","type":"Lending"},{"sn":41,"tracker":"Digital Projects","project":"VRG","description":null,"status":"Agreement Phase","start":"26th Feb 2026","target":null,"comments":null,"action":null,"parked":"Usama","type":"Integration"},{"sn":42,"tracker":"Digital Projects","project":"NTL - Billing","description":null,"status":"Agreement Phase","start":"10th June 2026","target":null,"comments":null,"action":null,"parked":"Usama","type":"Bill Payments"},{"sn":43,"tracker":"Digital Projects","project":"NTL - Biometric Enablement at e-Sahulat Centers/Agents","description":null,"status":"Agreement Phase","start":"10th June 2026","target":null,"comments":"WhatsApp group already exists.","action":null,"parked":"Usama","type":"Integration"},{"sn":44,"tracker":"Digital Projects","project":"Education Loan","description":null,"status":"Agreement Phase","start":null,"target":null,"comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":45,"tracker":"Digital Projects","project":"Intersave","description":null,"status":"Agreement Phase","start":"5th May 2026","target":null,"comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":46,"tracker":"Digital Projects","project":"IPG and Soft POS","description":null,"status":"Agreement Phase","start":null,"target":null,"comments":null,"action":null,"parked":"Usama, Hamza","type":"Card Related Project"}];
+const RAW_DATA = [{"sn":1,"tracker":"Digital Projects","project":"Gold Loan at Customer Doorstep","description":null,"status":"Live","start":null,"target":"TBD","comments":"UAT completed; currently live with GoldFin.","action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":2,"tracker":"Digital Projects","project":"ASAAN Digital Account \u2013 Website","description":null,"status":"BRD Stage","start":null,"target":"30th July, 2026","comments":"Innovation team to align requirements with IT & Ops; full flow to be implemented in the Mobile App. Delayed due to website revamping.","action":null,"parked":"Hamza, Ismail","type":"Other"},{"sn":3,"tracker":"Digital Projects","project":"Instant Card Issuance","description":null,"status":"UAT In Progress","start":null,"target":"30th July, 2026","comments":"Waiting for UAT sign-off from Ops.","action":null,"parked":"Hamza, Ismail","type":"Card Related Project"},{"sn":4,"tracker":"Digital Projects","project":"RAAST P2P","description":null,"status":"Live","start":null,"target":"30th July, 2026","comments":"Shifting to RAAST staging; waiting on State Bank for MR testing. Optional cases (per State Bank team) are in development.","action":null,"parked":"Hamza, Usama","type":"Integration"},{"sn":5,"tracker":"Digital Projects","project":"Corporate Portal & Home Remittance","description":null,"status":"Development Phase","start":null,"target":"TBD","comments":"UAT to be offered this month; moving to QA and InfoSec for testing.","action":null,"parked":"Ismail","type":"Remittance"},{"sn":6,"tracker":"Digital Projects","project":"Agent Interoperability","description":null,"status":"UAT In Progress","start":null,"target":"TBD","comments":"EasyPaisa and VRG UAT in process.","action":null,"parked":"Ismail","type":"Other"},{"sn":7,"tracker":"Digital Projects","project":"NADRA Facial","description":null,"status":"UAT In Progress","start":null,"target":"N/A","comments":"VAPT report expected from InfoSec next week; IT to upload required documentation to the NADRA portal for go-live approval. APIs received, pending configuration; connectivity with NADRA required.","action":"Follow up with NADRA","parked":"Usama","type":"Integration"},{"sn":8,"tracker":"Digital Projects","project":"Nano Loan \u2013 Zenda","description":null,"status":"Live","start":null,"target":"22 Jun 2026","comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":9,"tracker":"Digital Projects","project":"Nano Loan \u2013 FinLeap","description":null,"status":"Development Phase","start":null,"target":"TBD","comments":"IBFT API shared to enable IBFT transfers; core functionality enabled for IBFT loan recording in CBS.","action":"Follow up with FinLeap on the integration front","parked":"Kumail, Danyal","type":"Lending"},{"sn":10,"tracker":"Digital Projects","project":"Conversion of LMS (EWA / Advance Salary / Merchant Financing) into Banking Core","description":null,"status":"Live","start":null,"target":"23 Jun 2026","comments":"Repayment flow under development; expected completion by mid next week.","action":"Repayment flow development","parked":"Kumail, Danyal","type":"Lending"},{"sn":11,"tracker":"Digital Projects","project":"Family Saving Account","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":"Process flow shared with all stakeholders; BRD + UI/UX designs required.","action":"BRD and UI/UX designs to be provided","parked":"Kumail, Danyal","type":"Lending"},{"sn":12,"tracker":"Digital Projects","project":"Salary Backed Lending (Provident Fund, Gratuity & VPS)","description":null,"status":"Live","start":null,"target":"N/A","comments":null,"action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":13,"tracker":"Digital Projects","project":"Study Support Finance","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":"Process flow shared with all stakeholders; BRD + UI/UX designs required.","action":"BRD and UI/UX designs to be provided","parked":"Kumail, Danyal","type":"Lending"},{"sn":14,"tracker":"Digital Projects","project":"Buy Now Pay Later","description":null,"status":"Agreement Phase","start":null,"target":"N/A","comments":"Technical discussion held with AirLink's IT team; complete flow discussed.","action":"BRD and UI/UX designs to be provided","parked":"Kumail, Danyal","type":"Lending"},{"sn":15,"tracker":"Digital Projects","project":"App Revamp (UI/UX & Functionality)","description":"Overall app redesign covering user experience, interface, and functionality improvements","status":"Development Phase","start":null,"target":"15th July 2026","comments":"Designs shared with IT; implementation in process, minor tweaks still pending.\nImpact: Directly reshapes navigation and interaction; improves usability and reduces friction; sets the tone for future digital features.","action":null,"parked":"Ismail","type":"Journey Upgrade"},{"sn":16,"tracker":"Digital Projects","project":"Islamic Banking App Designs","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":null,"action":null,"parked":"Ismail","type":"Journey Upgrade"},{"sn":17,"tracker":"Digital Projects","project":"CBA","description":null,"status":"Development Phase","start":null,"target":"N/A","comments":"CBA is integrating our APIs.","action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":18,"tracker":"Digital Projects","project":"Aitemad","description":null,"status":"BRD Stage","start":null,"target":"N/A","comments":null,"action":null,"parked":"Kumail, Danyal","type":"Lending"},{"sn":19,"tracker":"Digital Projects","project":"Orio Tech","description":null,"status":"Live","start":null,"target":"30 Jun 2026","comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":20,"tracker":"Digital Projects","project":"Zarai Baramdat","description":null,"status":"Live","start":null,"target":"02 Jul 2026","comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":21,"tracker":"Digital Projects","project":"TPLI/Cashy Protect Mini App","description":null,"status":"BRD Stage","start":"7th July, 2026","target":null,"comments":null,"action":null,"parked":"Kumail/Danyal","type":"Mini App"},{"sn":22,"tracker":"Digital Projects","project":"Automatic Vendor Repayment Mechanism","description":null,"status":"Live","start":null,"target":"7th July, 2026","comments":null,"action":"Currently implemented with Digikhata. Will be implementing with our partners after successful run. ","parked":"Kumail/Danyal","type":"Lending"},{"sn":23,"tracker":"Digital Projects","project":"Dastak","description":null,"status":"Live","start":null,"target":null,"comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":24,"tracker":"Digital Projects","project":"Ufone Integration","description":null,"status":"UAT In Progress","start":"27th April, 2026","target":null,"comments":"Ufone POC aligned; QA will test on their end. Once tested, we will perform UAT and share feedback.","action":null,"parked":"Usama  ","type":"Mobile Load/Bundles"},{"sn":25,"tracker":"Digital Projects","project":"1-Link Biller Addition","description":null,"status":"BRD Stage","start":null,"target":null,"comments":"Finalizing the billers to be added; once finalized, email to be sent to Imran for biller addition.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":26,"tracker":"Digital Projects","project":"Kuickpay Biller Addition","description":null,"status":"BRD Stage","start":null,"target":null,"comments":"Finalizing the billers to be added; once finalized, email to be sent to Imran for biller addition.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":27,"tracker":"Digital Projects","project":"New Onboarding Journey (Islamic Banking)","description":null,"status":"BRD Stage","start":null,"target":null,"comments":"BRD shared with Khurram for approval.","action":null,"parked":"Usama  ","type":"Other"},{"sn":28,"tracker":"Digital Projects","project":"Bill Payment Revamp","description":null,"status":"BRD Stage","start":null,"target":null,"comments":" BRD floated today.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":29,"tracker":"Digital Projects","project":"M-Tag Integration","description":null,"status":"BRD Stage","start":null,"target":null,"comments":" BRD floated today.","action":null,"parked":"Usama  ","type":"Bill Payments"},{"sn":30,"tracker":"Digital Projects","project":"Jazz Loan API Integration","description":null,"status":"BRD Stage","start":null,"target":null,"comments":" BRD floated today.","action":null,"parked":"Usama  ","type":"Lending"},{"sn":31,"tracker":"Digital Projects","project":"Air Link Integration (BNPL PWA) ","description":"Interface integration for Air Link's Buy Now Pay Later PWA within the app","status":"BRD Stage","start":"05 Jul 2026","target":null,"comments":"Kickoff stage; scope being finalized with Air Link.\nImpact: Introduces a new in-app checkout financing journey; smooth integration is critical to avoid disrupting the existing purchase flow.","action":null,"parked":"Kumail/Danyal","type":"Lending"},{"sn":32,"tracker":"Digital Projects","project":"TechWisely (Planckly) Marketplace Integration","description":"Embedding the Planckly marketplace mini-app within the ABHI app; commission-based partnership","status":"Agreement Phase","start":"07 Jul 2026","target":null,"comments":"Draft agreement received. Tech session to be held next week for integration","action":null,"parked":"Ismail","type":"Mini App"},{"sn":33,"tracker":"Digital Projects","project":"Insurance Marketplace Integration (Adamjee, EFU, Webdoc)","description":"Integrating insurance providers into the app for in-app policy purchase/access","status":"Agreement Phase","start":"TBD","target":"TBD","comments":"Initial discussion done on PWA integration; agreement in process.\nImpact: Adds a self-service journey; lower expected usage frequency limits day-to-day UX impact.","action":null,"parked":"Ismail","type":"Mini App"},{"sn":34,"tracker":"Digital Projects","project":"Customer Complaints Framework (CRM Ticket Routing)","description":"Building a structured complaint intake and CRM-based ticket routing flow","status":"BRD Stage","start":"TBD","target":"TBD","comments":"Meeting with CX Head & Call Center Head scheduled to proceed with implementation.\nImpact: Affects user trust and satisfaction; faster, clearer resolution improves perceived reliability.","action":null,"parked":"Ismail","type":"Other"},{"sn":35,"tracker":"Digital Projects","project":"Firebase Database Events & Triggers Setup","description":"Setting up Firebase database and creating tracking events from scratch","status":"BRD Stage","start":"August","target":"September","comments":"Planning stage; mapping document in progress.\nImpact: Invisible to users directly, but enables future personalization and UX improvements via behavior tracking.","action":null,"parked":"Ismail","type":"Other"},{"sn":36,"tracker":"Digital Projects","project":"Link Revenue Streams to Firebase","description":"Connecting revenue data sources into Firebase for digital revenue tracking","status":"BRD Stage","start":"August","target":"September","comments":"Dependent on Firebase setup being completed first.\nImpact: Backend/analytics only; helps identify UX drop-off points tied to revenue.","action":null,"parked":"Ismail","type":"Other"},{"sn":37,"tracker":"Digital Projects","project":"Optimize Notifications","description":"Improve in-app/push notifications and performance","status":"Development Phase","start":"05 Jul 2026","target":"TBD","comments":"Currently mapping notification triggers journey; to be scoped once Firebase events are live.\nImpact: Shapes user re-engagement and retention; poorly timed notifications hurt UX and drive uninstalls.","action":null,"parked":"Ismail","type":"Other"},{"sn":38,"tracker":"Digital Projects","project":"In-App Gamification/App Loading Game if App lags","description":"Coin/incentive-based gamification engine","status":"BRD Stage","start":"TBD","target":"TBD","comments":"Planning stage.\nImpact: Incentivizes users to drive engagement and feature usage.","action":null,"parked":"Ismail","type":"Other"},{"sn":39,"tracker":"Digital Projects","project":"4Sight","description":null,"status":"BRD Stage","start":"30th March 2026","target":null,"comments":"WhatsApp group already exists with 4Sight.","action":null,"parked":"Ismail","type":"Other"},{"sn":40,"tracker":"Digital Projects","project":"Finleap Daira","description":null,"status":"Agreement Phase","start":"27th April 2026","target":null,"comments":"WhatsApp group already exists with Finleap Daira.","action":null,"parked":"Kumail","type":"Lending"},{"sn":41,"tracker":"Digital Projects","project":"VRG","description":null,"status":"Agreement Phase","start":"26th Feb 2026","target":null,"comments":null,"action":null,"parked":"Usama","type":"Integration"},{"sn":42,"tracker":"Digital Projects","project":"NTL - Billing","description":null,"status":"Agreement Phase","start":"10th June 2026","target":null,"comments":null,"action":null,"parked":"Usama","type":"Bill Payments"},{"sn":43,"tracker":"Digital Projects","project":"NTL - Biometric Enablement at e-Sahulat Centers/Agents","description":null,"status":"Agreement Phase","start":"10th June 2026","target":null,"comments":"WhatsApp group already exists.","action":null,"parked":"Usama","type":"Integration"},{"sn":44,"tracker":"Digital Projects","project":"Education Loan","description":null,"status":"Agreement Phase","start":null,"target":null,"comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":45,"tracker":"Digital Projects","project":"Intersave","description":null,"status":"Agreement Phase","start":"5th May 2026","target":null,"comments":null,"action":null,"parked":"Kumail","type":"Lending"},{"sn":46,"tracker":"Digital Projects","project":"IPG and Soft POS","description":null,"status":"Agreement Phase","start":null,"target":null,"comments":null,"action":null,"parked":"Usama, Hamza","type":"Card Related Project"}];
 
 const STORAGE_KEY = 'progressTrackerEdits_v1';
 const EDIT_PASSWORD = 'abhi2026'; // change this to whatever you like — this is your edit password
@@ -1621,20 +362,26 @@ function progressPct(catKey){
   return found ? found.pct : 10;
 }
 
+const DEFAULT_TYPE_OPTIONS = ["Card Related Project","Lending","Mini App","Bill Payments","Mobile Load/Bundles","Integration","Remittance","Journey Upgrade","Other"];
+
 function loadStore(){
   try{
     const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    if(raw && (raw.edits || raw.customRows)) return {edits: raw.edits || {}, customRows: raw.customRows || []};
-    return {edits: raw || {}, customRows: []}; // backward-compat with older flat format
-  }catch(e){ return {edits:{}, customRows:[]}; }
+    if(raw && (raw.edits || raw.customRows || raw.typeOptions)) return {
+      edits: raw.edits || {}, customRows: raw.customRows || [],
+      typeOptions: (raw.typeOptions && raw.typeOptions.length) ? raw.typeOptions : DEFAULT_TYPE_OPTIONS.slice()
+    };
+    return {edits: raw || {}, customRows: [], typeOptions: DEFAULT_TYPE_OPTIONS.slice()}; // backward-compat with older flat format
+  }catch(e){ return {edits:{}, customRows:[], typeOptions: DEFAULT_TYPE_OPTIONS.slice()}; }
 }
 function saveStore(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({edits, customRows}));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({edits, customRows, typeOptions: TYPE_OPTIONS}));
 }
 
 let store = loadStore();
 let edits = store.edits;
 let customRows = store.customRows;
+let TYPE_OPTIONS = store.typeOptions;
 
 let DATA = RAW_DATA.map(d => {
   const key = d.tracker + '::' + d.sn;
@@ -1955,9 +702,17 @@ function deleteCustomRow(key){
 // ---------- Add Project modal ----------
 const addModalOverlay = document.getElementById('addModalOverlay');
 
+function populateAddTypeDropdown(){
+  const sel = document.getElementById('addType');
+  const current = sel.value;
+  sel.innerHTML = TYPE_OPTIONS.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+  if(TYPE_OPTIONS.includes(current)) sel.value = current;
+}
+
 function openAddModal(){
-  ['addTracker','addProject','addType','addStatus','addParked','addStart','addTarget','addDescription','addComments','addAction']
+  ['addTracker','addProject','addStatus','addParked','addStart','addTarget','addDescription','addComments','addAction']
     .forEach(id => document.getElementById(id).value = '');
+  populateAddTypeDropdown();
   document.getElementById('addError').textContent = '';
   addModalOverlay.classList.add('open');
   document.getElementById('addTracker').focus();
@@ -1965,6 +720,60 @@ function openAddModal(){
 function closeAddModal(){
   addModalOverlay.classList.remove('open');
 }
+
+// ---------- Manage Types modal ----------
+const typesModalOverlay = document.getElementById('typesModalOverlay');
+
+function openTypesModal(){
+  renderTypesList();
+  document.getElementById('typesError').textContent = '';
+  document.getElementById('newTypeInput').value = '';
+  typesModalOverlay.classList.add('open');
+}
+function closeTypesModal(){
+  typesModalOverlay.classList.remove('open');
+  populateAddTypeDropdown(); // reflect any changes back in the Add Project dropdown
+  render(true); // refresh column filter dropdowns / table in case a type label changed usage
+}
+
+function renderTypesList(){
+  const host = document.getElementById('typesList');
+  host.innerHTML = TYPE_OPTIONS.map(t => {
+    const count = DATA.filter(d => (d.type || 'Other') === t).length;
+    return `<span class="type-chip">${esc(t)} <span class="type-count">(${count})</span><span class="type-remove" onclick="removeTypeOption('${esc(t).replace(/'/g,"\\'")}')">&times;</span></span>`;
+  }).join('') || '<span style="color:var(--muted);font-size:12.5px;">No types yet — add one below.</span>';
+}
+
+function addTypeOption(){
+  const input = document.getElementById('newTypeInput');
+  const val = input.value.trim();
+  const errorEl = document.getElementById('typesError');
+  if(!val){ errorEl.textContent = 'Please enter a type name.'; return; }
+  if(TYPE_OPTIONS.some(t => t.toLowerCase() === val.toLowerCase())){ errorEl.textContent = 'That type already exists.'; return; }
+  TYPE_OPTIONS.push(val);
+  saveStore();
+  errorEl.textContent = '';
+  input.value = '';
+  renderTypesList();
+}
+
+function removeTypeOption(type){
+  const count = DATA.filter(d => (d.type || 'Other') === type).length;
+  const msg = count > 0
+    ? `${count} project${count===1?'':'s'} currently use "${type}". Removing it from the list won't change their data, but you won't be able to pick it for new/edited projects. Continue?`
+    : `Remove "${type}" from the type list?`;
+  if(!confirm(msg)) return;
+  TYPE_OPTIONS = TYPE_OPTIONS.filter(t => t !== type);
+  saveStore();
+  renderTypesList();
+}
+
+document.getElementById('manageTypesLink').addEventListener('click', openTypesModal);
+document.getElementById('typesModalCloseBtn').addEventListener('click', closeTypesModal);
+document.getElementById('closeTypesBtn').addEventListener('click', closeTypesModal);
+document.getElementById('addTypeBtn').addEventListener('click', addTypeOption);
+document.getElementById('newTypeInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') addTypeOption(); });
+typesModalOverlay.addEventListener('click', (e) => { if(e.target === typesModalOverlay) closeTypesModal(); });
 
 function submitAddProject(){
   const tracker = document.getElementById('addTracker').value.trim();
@@ -2051,7 +860,7 @@ function renderRow(d, openState){
         <div class="detail-grid">
           <div class="detail-field"><label>Type</label>
             <select data-field="type">
-              ${['Card Related Project','Lending','Mini App','Bill Payments','Mobile Load/Bundles','Integration','Remittance','Journey Upgrade','Other'].map(s => `<option value="${s}" ${(d.type||'Other')===s?'selected':''}>${s}</option>`).join('')}
+              ${TYPE_OPTIONS.map(s => `<option value="${esc(s)}" ${(d.type||'Other')===s?'selected':''}>${esc(s)}</option>`).join('')}
             </select>
           </div>
           <div class="detail-field"><label>Status / Stage</label>
@@ -2290,7 +1099,7 @@ document.getElementById('exportExcelBtn').addEventListener('click', () => {
 });
 
 document.getElementById('publishBtn').addEventListener('click', () => {
-  if(!confirm('This downloads a new index.html with all your current edits, added projects, and documents baked in as the new baseline.\n\nRe-upload this file to your GitHub repo (replacing index.html) to make everything visible to everyone.\n\nContinue?')) return;
+  if(!confirm('This downloads a new index.html with all your current edits, added projects, documents, and type list baked in as the new baseline.\n\nRe-upload this file to your GitHub repo (replacing index.html) to make everything visible to everyone.\n\nContinue?')) return;
 
   const exportData = DATA.map(d => {
     const clean = Object.assign({}, d);
@@ -2298,9 +1107,11 @@ document.getElementById('publishBtn').addEventListener('click', () => {
     return clean;
   });
   const newDataJson = JSON.stringify(exportData);
+  const newTypesJson = JSON.stringify(TYPE_OPTIONS);
 
   let html = '<!doctype html>\n' + document.documentElement.outerHTML;
   html = html.replace(/const RAW_DATA = \[.*?\];/s, 'const RAW_DATA = ' + newDataJson.replace(/\$/g, '$$$$') + ';');
+  html = html.replace(/const DEFAULT_TYPE_OPTIONS = \[.*?\];/s, 'const DEFAULT_TYPE_OPTIONS = ' + newTypesJson.replace(/\$/g, '$$$$') + ';');
 
   const blob = new Blob([html], {type:'text/html'});
   const url = URL.createObjectURL(blob);
@@ -2341,6 +1152,5 @@ applyLockState();
 populateTrackerFilter();
 render();
 </script>
-
-
-</body></html>
+</body>
+</html>
