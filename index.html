@@ -182,6 +182,8 @@
   .type-chip{display:inline-flex;align-items:center;gap:7px;background:#EEF1F6;border:1px solid var(--border);
     border-radius:16px;padding:5px 10px 5px 12px;font-size:12.5px;font-weight:600;color:var(--text);}
   .type-chip .type-remove{cursor:pointer;color:var(--red);font-weight:700;font-size:13px;line-height:1;}
+  .type-chip .type-rename{cursor:pointer;color:var(--navy);font-size:12px;line-height:1;opacity:0.7;}
+  .type-chip .type-rename:hover{opacity:1;}
   .type-chip .type-remove:hover{opacity:0.7;}
   .type-chip .type-count{color:var(--muted);font-weight:500;font-size:11px;}
   .doc-help{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.5;}
@@ -264,8 +266,8 @@
         </div>
         <div class="detail-field">
           <label>Type</label>
-          <select id="addType"></select>
-          <span id="manageTypesLink" style="font-size:11px;color:var(--navy);cursor:pointer;text-decoration:underline;display:inline-block;margin-top:5px;">+ Add / Remove Types</span>
+          <input type="text" id="addType" list="typeOptionsDatalist" placeholder="Select or type a new type">
+          <span id="manageTypesLink" style="font-size:11px;color:var(--navy);cursor:pointer;text-decoration:underline;display:inline-block;margin-top:5px;">+ Add / Remove / Rename Types</span>
         </div>
         <div class="detail-field">
           <label>Current Status / Stage</label>
@@ -310,6 +312,8 @@
     </div>
   </div>
 </div>
+
+<datalist id="typeOptionsDatalist"></datalist>
 
 <div class="modal-overlay" id="typesModalOverlay">
   <div class="modal-panel">
@@ -652,6 +656,7 @@ function saveRow(key){
     const input = form.querySelector(`[data-field="${f}"]`);
     if(input) updated[f] = input.value;
   });
+  if(updated.type) updated.type = updated.type.trim() || 'Other';
   updated.documents = (editDocBuffer[key] || row.documents || []).slice();
 
   if(row._custom){
@@ -662,6 +667,7 @@ function saveRow(key){
     row._edited = true;
   }
   saveStore();
+  if(updated.type) registerTypeIfNew(updated.type);
   Object.assign(row, updated);
   delete editDocBuffer[key];
   const el = document.querySelector(`tr.row-detail[data-key="${CSS.escape(key)}"]`);
@@ -702,17 +708,26 @@ function deleteCustomRow(key){
 // ---------- Add Project modal ----------
 const addModalOverlay = document.getElementById('addModalOverlay');
 
-function populateAddTypeDropdown(){
-  const sel = document.getElementById('addType');
-  const current = sel.value;
-  sel.innerHTML = TYPE_OPTIONS.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
-  if(TYPE_OPTIONS.includes(current)) sel.value = current;
+function populateTypeDatalist(){
+  const dl = document.getElementById('typeOptionsDatalist');
+  dl.innerHTML = TYPE_OPTIONS.map(t => `<option value="${esc(t)}"></option>`).join('');
+}
+
+function registerTypeIfNew(typeVal){
+  const trimmed = (typeVal || '').trim();
+  if(!trimmed) return;
+  if(!TYPE_OPTIONS.some(t => t.toLowerCase() === trimmed.toLowerCase())){
+    TYPE_OPTIONS.push(trimmed);
+    saveStore();
+    populateTypeDatalist();
+  }
 }
 
 function openAddModal(){
   ['addTracker','addProject','addStatus','addParked','addStart','addTarget','addDescription','addComments','addAction']
     .forEach(id => document.getElementById(id).value = '');
-  populateAddTypeDropdown();
+  document.getElementById('addType').value = 'Other';
+  populateTypeDatalist();
   document.getElementById('addError').textContent = '';
   addModalOverlay.classList.add('open');
   document.getElementById('addTracker').focus();
@@ -732,7 +747,7 @@ function openTypesModal(){
 }
 function closeTypesModal(){
   typesModalOverlay.classList.remove('open');
-  populateAddTypeDropdown(); // reflect any changes back in the Add Project dropdown
+  populateTypeDatalist(); // reflect any changes back in the Type comboboxes
   render(true); // refresh column filter dropdowns / table in case a type label changed usage
 }
 
@@ -740,7 +755,8 @@ function renderTypesList(){
   const host = document.getElementById('typesList');
   host.innerHTML = TYPE_OPTIONS.map(t => {
     const count = DATA.filter(d => (d.type || 'Other') === t).length;
-    return `<span class="type-chip">${esc(t)} <span class="type-count">(${count})</span><span class="type-remove" onclick="removeTypeOption('${esc(t).replace(/'/g,"\\'")}')">&times;</span></span>`;
+    const safe = esc(t).replace(/'/g,"\\'");
+    return `<span class="type-chip">${esc(t)} <span class="type-count">(${count})</span><span class="type-rename" title="Rename" onclick="renameTypeOption('${safe}')">&#9998;</span><span class="type-remove" onclick="removeTypeOption('${safe}')">&times;</span></span>`;
   }).join('') || '<span style="color:var(--muted);font-size:12.5px;">No types yet — add one below.</span>';
 }
 
@@ -768,6 +784,34 @@ function removeTypeOption(type){
   renderTypesList();
 }
 
+function renameTypeOption(oldName){
+  const input = prompt('Rename "' + oldName + '" to:', oldName);
+  if(input === null) return;
+  const newName = input.trim();
+  if(!newName || newName === oldName) return;
+  if(TYPE_OPTIONS.some(t => t.toLowerCase() === newName.toLowerCase() && t !== oldName)){
+    alert('A type with that name already exists.');
+    return;
+  }
+  TYPE_OPTIONS = TYPE_OPTIONS.map(t => t === oldName ? newName : t);
+
+  DATA.forEach(d => {
+    if((d.type || 'Other') === oldName){
+      d.type = newName;
+      if(d._custom){
+        const cr = customRows.find(c => c._key === d._key);
+        if(cr) cr.type = newName;
+      } else {
+        edits[d._key] = Object.assign({}, edits[d._key] || {}, {type: newName});
+        d._edited = true;
+      }
+    }
+  });
+
+  saveStore();
+  renderTypesList();
+}
+
 document.getElementById('manageTypesLink').addEventListener('click', openTypesModal);
 document.getElementById('typesModalCloseBtn').addEventListener('click', closeTypesModal);
 document.getElementById('closeTypesBtn').addEventListener('click', closeTypesModal);
@@ -783,11 +827,13 @@ function submitAddProject(){
     return;
   }
   const maxSn = Math.max(0, ...DATA.map(d => Number(d.sn) || 0));
+  const typedType = document.getElementById('addType').value.trim() || 'Other';
+  registerTypeIfNew(typedType);
   const newRow = {
     sn: maxSn + 1,
     tracker: tracker,
     project: project,
-    type: document.getElementById('addType').value || 'Other',
+    type: typedType,
     description: document.getElementById('addDescription').value.trim() || null,
     status: document.getElementById('addStatus').value.trim() || 'BRD Stage',
     start: document.getElementById('addStart').value.trim() || null,
@@ -859,9 +905,7 @@ function renderRow(d, openState){
       <div class="edit-form">
         <div class="detail-grid">
           <div class="detail-field"><label>Type</label>
-            <select data-field="type">
-              ${TYPE_OPTIONS.map(s => `<option value="${esc(s)}" ${(d.type||'Other')===s?'selected':''}>${esc(s)}</option>`).join('')}
-            </select>
+            <input type="text" data-field="type" list="typeOptionsDatalist" value="${esc(d.type||'Other')}">
           </div>
           <div class="detail-field"><label>Status / Stage</label>
             <select data-field="status">
@@ -1150,6 +1194,7 @@ document.getElementById('unlockBtn').addEventListener('click', () => {
 
 applyLockState();
 populateTrackerFilter();
+populateTypeDatalist();
 render();
 </script>
 </body>
